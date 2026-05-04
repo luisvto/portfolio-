@@ -6,20 +6,20 @@
 
 ---
 
-## 🚀 Sobre mim
+## Sobre mim
 
 💻 Desenvolvedor em formação com foco em construção de sistemas web completos.
 
-📌 Experiência prática com:
+Experiência prática com:
 - Desenvolvimento frontend e backend
 - APIs REST
 - Integração com banco de dados
 
-🎯 Foco em criar aplicações reais e escaláveis.
+ Foco em criar aplicações reais e escaláveis.
 
 ---
 
-## 🧠 Tecnologias
+## Tecnologias
 
 <p align="center">
   <img src="https://skillicons.dev/icons?i=html,css,js,python,flask,sqlite,git,github" />
@@ -27,7 +27,7 @@
 
 ---
 
-## 📌 Projetos
+## Projetos
 
 ### 🔹 Sistema de Barbearia (Full Stack)
 Sistema completo com integração frontend + backend.
