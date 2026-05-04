@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador de CEP</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #38bdf8;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    input {
+      width: 70%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #38bdf8;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      background: #334155;
+      padding: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Buscador de CEP</h1>
+
+  <div class="container">
+    <p>Digite um CEP para buscar o endereço automaticamente.</p>
+
+    <input id="cepInput" type="text" placeholder="Ex: 01001000">
+    <button onclick="buscarCEP()">Buscar</button>
+
+    <div id="resultado" class="resultado"></div>
+  </div>
+
+  <script>
+    async function buscarCEP() {
+      const cep = document.getElementById("cepInput").value.replace(/\D/g, "");
+      const resultado = document.getElementById("resultado");
+
+      if (cep.length !== 8) {
+        resultado.innerHTML = "Digite um CEP válido com 8 números.";
+        return;
+      }
+
+      resultado.innerHTML = "Buscando...";
+
+      try {
+        const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const dados = await resposta.json();
+
+        if (dados.erro) {
+          resultado.innerHTML = "CEP não encontrado.";
+          return;
+        }
+
+        resultado.innerHTML = `
+          <p><strong>CEP:</strong> ${dados.cep}</p>
+          <p><strong>Rua:</strong> ${dados.logradouro}</p>
+          <p><strong>Bairro:</strong> ${dados.bairro}</p>
+          <p><strong>Cidade:</strong> ${dados.localidade}</p>
+          <p><strong>Estado:</strong> ${dados.uf}</p>
+        `;
+      } catch (erro) {
+        resultado.innerHTML = "Erro ao buscar o CEP.";
+      }
+    }
+  </script>
+</body>
+</html>

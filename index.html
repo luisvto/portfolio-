@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dev Luis Victor</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #020617;
+      color: white;
+    }
+
+    header {
+      width: 100%;
+      padding: 22px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      color: #38bdf8;
+      letter-spacing: 2px;
+    }
+
+    nav a {
+      margin: 0 16px;
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .social a {
+      color: #38bdf8;
+      font-size: 27px;
+      margin-left: 20px;
+      transition: 0.3s;
+    }
+
+    .social a:hover {
+      color: white;
+      transform: scale(1.15);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 130px 70px 70px;
+      gap: 60px;
+    }
+
+    .hero-text {
+      max-width: 650px;
+      animation: entrarEsquerda 1.2s ease forwards;
+    }
+
+    .code {
+      color: #22c55e;
+      font-family: monospace;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    #typing::after {
+      content: "|";
+      animation: piscar 1s infinite;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 400;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 strong {
+      font-weight: 900;
+      color: white;
+    }
+
+    .hero h1 span {
+      color: #38bdf8;
+      font-weight: 900;
+    }
+
+    .hero h2 {
+      font-size: 30px;
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      line-height: 1.7;
+      font-size: 18px;
+    }
+
+    .destaque {
+      color: #38bdf8;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.45);
+    }
+
+    .hero-img {
+      width: 390px;
+      height: 390px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9, #0369a1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: flutuar 3s ease-in-out infinite;
+      box-shadow: 0 0 60px rgba(56, 189, 248, 0.35);
+    }
+
+.computer-svg {
+  width: 340px;
+  height: 340px;
+}
+
+.svg-glow {
+  fill: url(#gradiente);
+}
+.hero-img {
+  width: 390px;
+  height: 390px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9, #0369a1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: flutuar 3s ease-in-out infinite;
+  box-shadow: 0 0 60px rgba(56, 189, 248, 0.35);
+}
+
+.computer-svg {
+  width: 330px;
+  height: 330px;
+}
+
+.svg-glow {
+  fill: rgba(255, 255, 255, 0.08);
+}
+
+.monitor {
+  fill: #e0f2fe;
+  stroke: #ffffff;
+  stroke-width: 6;
+  animation: pulseMonitor 2.5s ease-in-out infinite;
+}
+
+.screen {
+  fill: #020617;
+}
+
+.code-line {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+  animation: drawCode 2s ease forwards infinite alternate;
+}
+
+.base,
+.keyboard {
+  fill: #e0f2fe;
+}
+
+.keyboard {
+  animation: pulseKeyboard 2s ease-in-out infinite;
+}
+
+@keyframes drawCode {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulseMonitor {
+  0%, 100% {
+    transform: scale(1);
+    transform-origin: center;
+  }
+  50% {
+    transform: scale(1.03);
+    transform-origin: center;
+  }
+}
+
+@keyframes pulseKeyboard {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 90px 30px;
+    }
+
+    section h2 {
+      color: #38bdf8;
+      font-size: 34px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .sobre-area {
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .sobre p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #cbd5e1;
+      text-align: center;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .tech-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 35px;
+    }
+
+    .tech {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: #020617;
+      border: 2px solid #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: #38bdf8;
+      transition: 0.4s;
+      animation: girar 8s linear infinite;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+    }
+
+    .tech:hover {
+      background: #38bdf8;
+      color: #020617;
+      transform: scale(1.15);
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.7);
+      animation-play-state: paused;
+    }
+
+    .projetos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 18px;
+      padding: 25px;
+      transition: 0.4s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: #38bdf8;
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.25);
+    }
+
+    .card h3 {
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 11px 18px;
+      border-radius: 30px;
+      background: #38bdf8;
+      color: #020617;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: white;
+      transform: scale(1.05);
+    }
+
+    .contato {
+      text-align: center;
+    }
+
+    .contato p {
+      margin: 14px;
+      font-size: 18px;
+      color: #cbd5e1;
+    }
+
+    .contato a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .contato a:hover {
+      text-decoration: underline;
+    }
+
+    .whatsapp {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-size: 34px;
+      text-decoration: none;
+      z-index: 200;
+      transition: 0.3s;
+    }
+
+    .whatsapp:hover {
+      transform: scale(1.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #64748b;
+    }
+
+    @keyframes entrarEsquerda {
+      from {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes flutuar {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+    @keyframes girar {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes piscar {
+      0%, 50%, 100% {
+        opacity: 1;
+      }
+      25%, 75% {
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 850px) {
+      header {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 180px 25px 60px;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .hero h2 {
+        font-size: 24px;
+      }
+
+      .hero-img {
+        width: 280px;
+        height: 280px;
+      }
+
+      .hero-img i {
+        font-size: 115px;
+      }
+
+      nav a {
+        margin: 0 8px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">LUIS | DEV</div>
+
+    <nav>
+      <a href="#inicio">INÍCIO</a>
+      <a href="#sobre">SOBRE</a>
+      <a href="#projetos">PROJETOS</a>
+      <a href="#contato">CONTATO</a>
+    </nav>
+
+    <div class="social">
+      <a href="https://www.linkedin.com/in/luis-oliveira-79aa29407/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="https://github.com/luisvto" target="_blank"><i class="fa-brands fa-github"></i></a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" id="inicio">
+      <div class="hero-text">
+        <p class="code"><span id="typing"></span></p>
+
+        <h1>Eu sou <strong>Luis Victor</strong></h1>
+
+        <h2>Desenvolvedor Fullstack em Formação</h2>
+
+
+      </div>
+
+<div class="hero-img">
+  <svg class="computer-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle class="svg-glow" cx="250" cy="250" r="210"/>
+
+    <rect class="monitor" x="130" y="130" width="240" height="160" rx="18"/>
+    <rect class="screen" x="150" y="150" width="200" height="115" rx="8"/>
+
+    <path class="code-line" d="M225 185 L195 215 L225 245"/>
+    <path class="code-line" d="M275 185 L305 215 L275 245"/>
+    <line class="code-line" x1="260" y1="180" x2="240" y2="250"/>
+
+    <rect class="base" x="215" y="290" width="70" height="35" rx="6"/>
+    <rect class="keyboard" x="150" y="325" width="200" height="45" rx="14"/>
+  </svg>
+</div>
+    </section>
+
+    <div class="sobre-area" id="sobre">
+      <section class="sobre">
+        <h2>Sobre mim</h2>
+
+<p>
+  Desenvolvedor em formação com conhecimentos em 
+  <span class="destaque">Java, Python, JavaScript e bancos de dados relacionais</span>, 
+  atuando na criação de aplicações e sistemas voltados para soluções práticas.<br><br>
+
+  Experiência em desenvolvimento web, modelagem de dados e integração de sistemas, 
+  com foco na construção de <span class="destaque">APIs REST</span> e aplicações organizadas e escaláveis.<br><br>
+
+  Comprometido com a evolução contínua, busco aplicar boas práticas de desenvolvimento 
+  e contribuir com soluções eficientes em ambientes tecnológicos.
+</p>
+        <div class="tech-icons">
+          <div class="tech"><i class="fa-brands fa-python"></i></div>
+          <div class="tech"><i class="fa-brands fa-js"></i></div>
+          <div class="tech"><i class="fa-solid fa-database"></i></div>
+          <div class="tech"><i class="fa-brands fa-html5"></i></div>
+          <div class="tech"><i class="fa-brands fa-css3-alt"></i></div>
+        </div>
+      </section>
+    </div>
+
+<section id="projetos">
+  <h2>Projetos</h2>
+
+  <div class="projetos-grid">
+
+    <div class="card">
+  <h3>SalesDash - Dashboard Financeiro</h3>
+  <p>
+  Dashboard financeiro desenvolvido com <span class="destaque">HTML, CSS e JavaScript</span>,
+  utilizando a biblioteca <span class="destaque">Chart.js</span> para visualização de dados.<br><br>
+
+  Apresenta indicadores como faturamento, ticket médio, pedidos e clientes, além de
+  gráficos dinâmicos e tabelas, simulando um sistema de análise de desempenho comercial.
+</p>
+
+  <a class="btn" href="dashboard.html">Ver projeto</a>
+</div>
+
+    <div class="card">
+      <h3>TechStore - E-commerce</h3>
+      <p>
+  Loja virtual desenvolvida com <span class="destaque">HTML, CSS e JavaScript</span>,
+  com catálogo dinâmico de produtos, sistema de busca, filtros por categoria e
+  carrinho de compras com persistência em <span class="destaque">localStorage</span>.<br><br>
+
+  Implementa lógica de controle de quantidade, cálculo automático de total e
+  manipulação de estado no frontend, simulando o funcionamento de um e-commerce real.
+</p>
+
+      <a class="btn" href="ecommerce.html">Ver projeto</a>
+    </div>
+
+    <div class="card destaque">
+  <h3>Sistema de Barbearia — Full Stack</h3>
+
+  <p>
+    Sistema completo de gestão desenvolvido com <span class="destaque">HTML, CSS e JavaScript</span>
+    no frontend, integrado a uma API REST criada com <span class="destaque">Python Flask</span>
+    e banco de dados <span class="destaque">SQLite</span>.<br><br>
+
+    Possui cadastro de agendamentos, controle de horários, validação de conflitos,
+    gestão de custos, cálculo de faturamento, lucro e ticket médio, simulando um
+    sistema real para pequenos negócios.
+  </p>
+
+  <p style="font-size: 13px; opacity: 0.75;">
+    Projeto offline: requer API Flask rodando localmente.
+  </p>
+
+  <a class="btn" href="barbearia.html">Ver sistema</a>
+
+
+    </div>
+
+    <div class="card">
+      <h3>Buscador de CEP</h3>
+<p>
+  Aplicação web desenvolvida com <span class="destaque">HTML, CSS e JavaScript</span>,
+  que realiza consumo de API externa para busca automática de endereços.<br><br>
+
+  Utiliza requisições com <span class="destaque">fetch API</span> para integração com
+  serviços públicos, manipulando dados retornados em tempo real e exibindo
+  informações de forma dinâmica ao usuário.
+</p>
+      <a class="btn" href="cep.html">Ver projeto</a>
+    </div>
+
+    <div class="card">
+      <h3>Lista de Tarefas</h3>
+<p>
+  Aplicação desenvolvida com <span class="destaque">HTML, CSS e JavaScript</span>,
+  voltada para gerenciamento de tarefas com interface interativa.<br><br>
+
+  Implementa manipulação de DOM, controle de estado da aplicação e persistência
+  de dados com <span class="destaque">localStorage</span>, permitindo adicionar,
+  concluir e remover tarefas de forma dinâmica.
+</p>
+      <a class="btn" href="tarefas.html">Ver projeto</a>
+    </div>
+
+
+  </div>
+</section>
+
+    <section class="contato" id="contato">
+      <h2>Contato</h2>
+
+      <p>Email: <a href="mailto:luisvto004@gmail.com">luisvto004@gmail.com</a></p>
+      <p>GitHub: <a href="https://github.com/luisvto" target="_blank">github.com/luisvto</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/luis-oliveira-79aa29407/" target="_blank">linkedin.com/in/luisvto</a></p>
+    </section>
+
+  </main>
+
+  <a class="whatsapp" href="https://wa.me/5554997142294" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <footer>
+    <p>Desenvolvido por Luis Victor 🚀</p>
+  </footer>
+
+  <script>
+    const texto = 'print("Hello World")';
+    let i = 0;
+
+    function digitar() {
+      if (i < texto.length) {
+        document.getElementById("typing").innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(digitar, 60);
+      }
+    }
+
+    digitar();
+  </script>
+
+</body>
+</html>

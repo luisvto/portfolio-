@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Tarefas</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #38bdf8;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    input {
+      width: 70%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #38bdf8;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    li {
+      margin-top: 12px;
+      background: #334155;
+      padding: 10px;
+      border-radius: 8px;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .feito {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Lista de Tarefas</h1>
+
+  <div class="container">
+    <p>Adicione tarefas e marque quando forem concluídas.</p>
+
+    <input id="tarefaInput" type="text" placeholder="Digite uma tarefa">
+    <button onclick="adicionarTarefa()">Adicionar</button>
+
+    <ul id="listaTarefas"></ul>
+  </div>
+
+  <script>
+    function adicionarTarefa() {
+      const input = document.getElementById("tarefaInput");
+      const texto = input.value.trim();
+
+      if (texto === "") {
+        alert("Digite uma tarefa!");
+        return;
+      }
+
+      const lista = document.getElementById("listaTarefas");
+
+      const item = document.createElement("li");
+
+      const span = document.createElement("span");
+      span.textContent = texto;
+
+      span.onclick = function () {
+        span.classList.toggle("feito");
+      };
+
+      const botaoRemover = document.createElement("button");
+      botaoRemover.textContent = "Excluir";
+
+      botaoRemover.onclick = function () {
+        lista.removeChild(item);
+      };
+
+      item.appendChild(span);
+      item.appendChild(botaoRemover);
+
+      lista.appendChild(item);
+
+      input.value = "";
+    }
+  </script>
+</body>
+</html>

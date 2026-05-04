@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore | E-commerce</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #020617;
+      color: #e2e8f0;
+    }
+
+    header {
+      padding: 25px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .logo {
+      color: #38bdf8;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .cart-btn {
+      background: #38bdf8;
+      color: #020617;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 70px 8%;
+      background: linear-gradient(135deg, #020617, #0f172a);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      max-width: 700px;
+      color: white;
+    }
+
+    .hero span {
+      color: #38bdf8;
+    }
+
+    .hero p {
+      margin-top: 15px;
+      color: #94a3b8;
+      font-size: 18px;
+      max-width: 600px;
+    }
+
+    .filters {
+      padding: 30px 8%;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    input, select {
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: white;
+      min-width: 220px;
+    }
+
+    .products {
+      padding: 20px 8% 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .product {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 18px;
+      padding: 20px;
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-8px);
+      border-color: #38bdf8;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.18);
+    }
+
+    .product-img {
+      height: 170px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38bdf8, #0369a1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 58px;
+      margin-bottom: 18px;
+    }
+
+    .product h3 {
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .category {
+      font-size: 14px;
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #94a3b8;
+      font-size: 15px;
+      line-height: 1.5;
+      min-height: 70px;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 18px 0;
+      color: #22c55e;
+    }
+
+    .product button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #38bdf8;
+      color: #020617;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .product button:hover {
+      background: white;
+    }
+
+    .cart {
+      position: fixed;
+      right: -420px;
+      top: 0;
+      width: 400px;
+      height: 100%;
+      background: #0f172a;
+      border-left: 1px solid #334155;
+      padding: 25px;
+      z-index: 100;
+      transition: 0.4s;
+      overflow-y: auto;
+    }
+
+    .cart.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .cart-header h2 {
+      color: #38bdf8;
+    }
+
+    .close {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .cart-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #334155;
+    }
+
+    .cart-item h4 {
+      margin-bottom: 8px;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .cart-actions button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #38bdf8;
+      color: #020617;
+      font-weight: bold;
+    }
+
+    .remove {
+      background: #ef4444 !important;
+      color: white !important;
+    }
+
+    .total {
+      margin-top: 25px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .checkout {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #22c55e;
+      color: #022c22;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .empty {
+      color: #94a3b8;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .cart {
+        width: 100%;
+        right: -100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">TechStore</div>
+  <button class="cart-btn" onclick="abrirCarrinho()">Carrinho (<span id="cartCount">0</span>)</button>
+</header>
+
+<section class="hero">
+  <h1>Produtos tecnológicos para quem busca <span>performance</span></h1>
+  <p>
+    Loja virtual demonstrativa com catálogo dinâmico, filtros, busca,
+    carrinho de compras e cálculo automático de valores.
+  </p>
+</section>
+
+<section class="filters">
+  <input id="searchInput" type="text" placeholder="Buscar produto..." oninput="renderizarProdutos()">
+
+  <select id="categoryFilter" onchange="renderizarProdutos()">
+    <option value="todos">Todas as categorias</option>
+    <option value="Notebooks">Notebooks</option>
+    <option value="Periféricos">Periféricos</option>
+    <option value="Acessórios">Acessórios</option>
+  </select>
+</section>
+
+<section class="products" id="products"></section>
+
+<aside class="cart" id="cart">
+  <div class="cart-header">
+    <h2>Meu Carrinho</h2>
+    <button class="close" onclick="fecharCarrinho()">X</button>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <p class="total">Total: <span id="cartTotal">R$ 0,00</span></p>
+
+  <button class="checkout" onclick="finalizarCompra()">Finalizar Compra</button>
+</aside>
+
+<script>
+  const produtos = [
+    {
+      id: 1,
+      nome: "Notebook Pro X",
+      categoria: "Notebooks",
+      descricao: "Notebook de alta performance para estudos, programação e produtividade.",
+      preco: 4299.90,
+      icone: "💻"
+    },
+    {
+      id: 2,
+      nome: "Teclado Mecânico RGB",
+      categoria: "Periféricos",
+      descricao: "Teclado mecânico com iluminação RGB e switches de alta precisão.",
+      preco: 349.90,
+      icone: "⌨️"
+    },
+    {
+      id: 3,
+      nome: "Mouse Gamer 12000 DPI",
+      categoria: "Periféricos",
+      descricao: "Mouse ergonômico com alta precisão e botões programáveis.",
+      preco: 199.90,
+      icone: "🖱️"
+    },
+    {
+      id: 4,
+      nome: "Headset Wireless",
+      categoria: "Acessórios",
+      descricao: "Headset sem fio com áudio imersivo e microfone com redução de ruído.",
+      preco: 459.90,
+      icone: "🎧"
+    },
+    {
+      id: 5,
+      nome: "Monitor UltraWide",
+      categoria: "Acessórios",
+      descricao: "Monitor amplo para produtividade, programação e edição de conteúdo.",
+      preco: 1599.90,
+      icone: "🖥️"
+    },
+    {
+      id: 6,
+      nome: "Notebook Student",
+      categoria: "Notebooks",
+      descricao: "Notebook ideal para estudantes, tarefas acadêmicas e desenvolvimento web.",
+      preco: 2899.90,
+      icone: "💼"
+    }
+  ];
+
+  let carrinho = JSON.parse(localStorage.getItem("carrinhoTechStore")) || [];
+
+  function formatarMoeda(valor) {
+    return valor.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+  }
+
+  function renderizarProdutos() {
+    const container = document.getElementById("products");
+    const busca = document.getElementById("searchInput").value.toLowerCase();
+    const categoria = document.getElementById("categoryFilter").value;
+
+    const produtosFiltrados = produtos.filter(produto => {
+      const combinaBusca = produto.nome.toLowerCase().includes(busca);
+      const combinaCategoria = categoria === "todos" || produto.categoria === categoria;
+
+      return combinaBusca && combinaCategoria;
+    });
+
+    container.innerHTML = "";
+
+    produtosFiltrados.forEach(produto => {
+      container.innerHTML += `
+        <div class="product">
+          <div class="product-img">${produto.icone}</div>
+          <p class="category">${produto.categoria}</p>
+          <h3>${produto.nome}</h3>
+          <p class="description">${produto.descricao}</p>
+          <p class="price">${formatarMoeda(produto.preco)}</p>
+          <button onclick="adicionarAoCarrinho(${produto.id})">Adicionar ao carrinho</button>
+        </div>
+      `;
+    });
+
+    if (produtosFiltrados.length === 0) {
+      container.innerHTML = "<p class='empty'>Nenhum produto encontrado.</p>";
+    }
+  }
+
+  function adicionarAoCarrinho(id) {
+    const produto = produtos.find(item => item.id === id);
+    const itemExistente = carrinho.find(item => item.id === id);
+
+    if (itemExistente) {
+      itemExistente.quantidade++;
+    } else {
+      carrinho.push({
+        ...produto,
+        quantidade: 1
+      });
+    }
+
+    salvarCarrinho();
+    renderizarCarrinho();
+    abrirCarrinho();
+  }
+
+  function renderizarCarrinho() {
+    const container = document.getElementById("cartItems");
+    const count = document.getElementById("cartCount");
+    const total = document.getElementById("cartTotal");
+
+    container.innerHTML = "";
+
+    if (carrinho.length === 0) {
+      container.innerHTML = "<p class='empty'>Seu carrinho está vazio.</p>";
+    }
+
+    carrinho.forEach(item => {
+      container.innerHTML += `
+        <div class="cart-item">
+          <h4>${item.nome}</h4>
+          <p>${formatarMoeda(item.preco)} cada</p>
+
+          <div class="cart-actions">
+            <button onclick="diminuirQuantidade(${item.id})">-</button>
+            <span>${item.quantidade}</span>
+            <button onclick="aumentarQuantidade(${item.id})">+</button>
+            <button class="remove" onclick="removerDoCarrinho(${item.id})">Remover</button>
+          </div>
+        </div>
+      `;
+    });
+
+    const quantidadeTotal = carrinho.reduce((total, item) => total + item.quantidade, 0);
+    const valorTotal = carrinho.reduce((total, item) => total + item.preco * item.quantidade, 0);
+
+    count.innerText = quantidadeTotal;
+    total.innerText = formatarMoeda(valorTotal);
+  }
+
+  function aumentarQuantidade(id) {
+    const item = carrinho.find(produto => produto.id === id);
+    item.quantidade++;
+    salvarCarrinho();
+    renderizarCarrinho();
+  }
+
+  function diminuirQuantidade(id) {
+    const item = carrinho.find(produto => produto.id === id);
+
+    if (item.quantidade > 1) {
+      item.quantidade--;
+    } else {
+      carrinho = carrinho.filter(produto => produto.id !== id);
+    }
+
+    salvarCarrinho();
+    renderizarCarrinho();
+  }
+
+  function removerDoCarrinho(id) {
+    carrinho = carrinho.filter(produto => produto.id !== id);
+    salvarCarrinho();
+    renderizarCarrinho();
+  }
+
+  function salvarCarrinho() {
+    localStorage.setItem("carrinhoTechStore", JSON.stringify(carrinho));
+  }
+
+  function abrirCarrinho() {
+    document.getElementById("cart").classList.add("open");
+  }
+
+  function fecharCarrinho() {
+    document.getElementById("cart").classList.remove("open");
+  }
+
+  function finalizarCompra() {
+    if (carrinho.length === 0) {
+      alert("Seu carrinho está vazio.");
+      return;
+    }
+
+    alert("Compra finalizada com sucesso! Projeto demonstrativo.");
+    carrinho = [];
+    salvarCarrinho();
+    renderizarCarrinho();
+    fecharCarrinho();
+  }
+
+  renderizarProdutos();
+  renderizarCarrinho();
+</script>
+
+</body>
+</html>

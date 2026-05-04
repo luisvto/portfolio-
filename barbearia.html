@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Barbearia</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+
+body {
+  background: #020617;
+  color: #e2e8f0;
+  padding: 30px;
+}
+
+.container { max-width: 1100px; margin: auto; }
+
+.voltar {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+h1, h2 {
+  color: #38bdf8;
+  margin-bottom: 12px;
+}
+
+.card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  padding: 22px;
+  border-radius: 16px;
+  margin-top: 22px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  margin-top: 12px;
+  padding: 11px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #38bdf8;
+  color: #020617;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover { background: white; }
+
+.btn-remover { background: #ef4444; color: white; }
+.btn-editar { background: #facc15; color: #020617; }
+
+table {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+}
+
+th { color: #38bdf8; }
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+}
+
+.box {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+}
+
+.box p {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <a class="voltar" href="index.html">← Voltar ao portfólio</a>
+
+  <div class="card">
+    <h1>Sistema de Gestão para Barbearia</h1>
+    <p>Sistema integrado com API em Python Flask, banco SQLite, agendamentos, custos e controle financeiro.</p>
+  </div>
+
+  <div class="card">
+    <h2>Novo Agendamento</h2>
+
+    <input id="cliente" type="text" placeholder="Nome do cliente">
+
+    <select id="servico" onchange="atualizarValorServico()">
+      <option value="">Selecione o serviço</option>
+      <option value="Corte de cabelo" data-preco="30">Corte de cabelo - R$30</option>
+      <option value="Barba" data-preco="20">Barba - R$20</option>
+      <option value="Corte + Barba" data-preco="45">Corte + Barba - R$45</option>
+      <option value="Sobrancelha" data-preco="15">Sobrancelha - R$15</option>
+    </select>
+
+    <input id="valor" type="number" placeholder="Valor do serviço" readonly>
+    <input id="data" type="date">
+
+    <select id="hora">
+      <option value="">Selecione o horário</option>
+    </select>
+
+    <button onclick="cadastrarAgendamento()">Cadastrar Agendamento</button>
+  </div>
+
+  <div class="card">
+    <h2>Agendamentos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Serviço</th>
+          <th>Data</th>
+          <th>Hora</th>
+          <th>Valor</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="listaAgendamentos"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Custos da Barbearia</h2>
+
+    <input id="custoNome" type="text" placeholder="Nome do custo. Ex: Aluguel, energia, produtos">
+    <input id="custoValor" type="number" placeholder="Valor do custo">
+    <input id="custoMes" type="month">
+
+    <button id="btnCusto" onclick="salvarCusto()">Adicionar Custo</button>
+  </div>
+
+  <div class="card">
+    <h2>Lista de Custos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Custo</th>
+          <th>Mês</th>
+          <th>Valor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="listaCustos"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Resumo Financeiro</h2>
+
+    <div class="resumo">
+      <div class="box">
+        <h3>Faturamento</h3>
+        <p id="faturamento">R$ 0,00</p>
+      </div>
+
+      <div class="box">
+        <h3>Custos</h3>
+        <p id="totalCustos">R$ 0,00</p>
+      </div>
+
+      <div class="box">
+        <h3>Lucro</h3>
+        <p id="lucro">R$ 0,00</p>
+      </div>
+
+      <div class="box">
+        <h3>Ticket Médio</h3>
+        <p id="ticketMedio">R$ 0,00</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_URL = "http://127.0.0.1:5000";
+let custoEditandoId = null;
+
+function gerarHorarios() {
+  const select = document.getElementById("hora");
+  select.innerHTML = '<option value="">Selecione o horário</option>';
+
+  for (let h = 8; h <= 18; h++) {
+    const horaCheia = String(h).padStart(2, "0") + ":00";
+    const meiaHora = String(h).padStart(2, "0") + ":30";
+
+    select.innerHTML += `<option value="${horaCheia}">${horaCheia}</option>`;
+
+    if (h !== 18) {
+      select.innerHTML += `<option value="${meiaHora}">${meiaHora}</option>`;
+    }
+  }
+}
+
+function atualizarValorServico() {
+  const servico = document.getElementById("servico");
+  const opcao = servico.options[servico.selectedIndex];
+  document.getElementById("valor").value = opcao.getAttribute("data-preco") || "";
+}
+
+async function cadastrarAgendamento() {
+  const cliente = document.getElementById("cliente").value.trim();
+  const servico = document.getElementById("servico").value;
+  const valor = Number(document.getElementById("valor").value);
+  const data = document.getElementById("data").value;
+  const hora = document.getElementById("hora").value;
+
+  if (!cliente || !servico || !valor || !data || !hora) {
+    alert("Preencha todos os campos.");
+    return;
+  }
+
+  const resposta = await fetch(`${API_URL}/agendamentos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cliente, servico, valor, data, hora })
+  });
+
+  const resultado = await resposta.json();
+
+  if (!resposta.ok) {
+    alert(resultado.erro || "Erro ao cadastrar agendamento.");
+    return;
+  }
+
+  limparAgendamento();
+  carregarTudo();
+}
+
+async function carregarAgendamentos() {
+  const resposta = await fetch(`${API_URL}/agendamentos`);
+  return await resposta.json();
+}
+
+async function excluirAgendamento(id) {
+  if (!confirm("Deseja excluir este agendamento?")) return;
+
+  await fetch(`${API_URL}/agendamentos/${id}`, {
+    method: "DELETE"
+  });
+
+  carregarTudo();
+}
+
+async function salvarCusto() {
+  const nome = document.getElementById("custoNome").value.trim();
+  const valor = Number(document.getElementById("custoValor").value);
+  const mes = document.getElementById("custoMes").value;
+
+  if (!nome || !valor || !mes) {
+    alert("Preencha nome, valor e mês do custo.");
+    return;
+  }
+
+  const metodo = custoEditandoId ? "PUT" : "POST";
+  const url = custoEditandoId ? `${API_URL}/custos/${custoEditandoId}` : `${API_URL}/custos`;
+
+  const resposta = await fetch(url, {
+    method: metodo,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nome, valor, mes })
+  });
+
+  const resultado = await resposta.json();
+
+  if (!resposta.ok) {
+    alert(resultado.erro || "Erro ao salvar custo.");
+    return;
+  }
+
+  custoEditandoId = null;
+  document.getElementById("btnCusto").innerText = "Adicionar Custo";
+
+  limparCusto();
+  carregarTudo();
+}
+
+async function carregarCustos() {
+  const resposta = await fetch(`${API_URL}/custos`);
+  return await resposta.json();
+}
+
+function editarCusto(id, nome, valor, mes) {
+  document.getElementById("custoNome").value = nome;
+  document.getElementById("custoValor").value = valor;
+  document.getElementById("custoMes").value = mes;
+
+  custoEditandoId = id;
+  document.getElementById("btnCusto").innerText = "Salvar Alterações";
+
+  window.scrollTo({
+    top: document.getElementById("custoNome").offsetTop - 100,
+    behavior: "smooth"
+  });
+}
+
+async function excluirCusto(id) {
+  if (!confirm("Deseja excluir este custo?")) return;
+
+  await fetch(`${API_URL}/custos/${id}`, {
+    method: "DELETE"
+  });
+
+  carregarTudo();
+}
+
+function renderizarAgendamentos(agendamentos) {
+  const lista = document.getElementById("listaAgendamentos");
+  lista.innerHTML = "";
+
+  agendamentos.forEach(item => {
+    lista.innerHTML += `
+      <tr>
+        <td>${item.cliente}</td>
+        <td>${item.servico}</td>
+        <td>${formatarData(item.data)}</td>
+        <td>${item.hora}</td>
+        <td>${formatarMoeda(item.valor)}</td>
+        <td>
+          <button class="btn-remover" onclick="excluirAgendamento(${item.id})">
+            Excluir
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function renderizarCustos(custos) {
+  const lista = document.getElementById("listaCustos");
+  lista.innerHTML = "";
+
+  custos.forEach(item => {
+    lista.innerHTML += `
+      <tr>
+        <td>${item.nome}</td>
+        <td>${formatarMes(item.mes)}</td>
+        <td>${formatarMoeda(item.valor)}</td>
+        <td>
+          <div class="acoes">
+            <button class="btn-editar" onclick="editarCusto(${item.id}, '${item.nome}', ${item.valor}, '${item.mes}')">
+              Editar
+            </button>
+            <button class="btn-remover" onclick="excluirCusto(${item.id})">
+              Excluir
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function atualizarResumo(agendamentos, custos) {
+  const faturamento = agendamentos.reduce((total, item) => total + Number(item.valor), 0);
+  const totalCustos = custos.reduce((total, item) => total + Number(item.valor), 0);
+  const lucro = faturamento - totalCustos;
+  const ticketMedio = agendamentos.length > 0 ? faturamento / agendamentos.length : 0;
+
+  document.getElementById("faturamento").innerText = formatarMoeda(faturamento);
+  document.getElementById("totalCustos").innerText = formatarMoeda(totalCustos);
+  document.getElementById("lucro").innerText = formatarMoeda(lucro);
+  document.getElementById("ticketMedio").innerText = formatarMoeda(ticketMedio);
+}
+
+async function carregarTudo() {
+  const agendamentos = await carregarAgendamentos();
+  const custos = await carregarCustos();
+
+  renderizarAgendamentos(agendamentos);
+  renderizarCustos(custos);
+  atualizarResumo(agendamentos, custos);
+}
+
+function limparAgendamento() {
+  document.getElementById("cliente").value = "";
+  document.getElementById("servico").value = "";
+  document.getElementById("valor").value = "";
+  document.getElementById("data").value = "";
+  document.getElementById("hora").value = "";
+}
+
+function limparCusto() {
+  document.getElementById("custoNome").value = "";
+  document.getElementById("custoValor").value = "";
+  document.getElementById("custoMes").value = "";
+}
+
+function formatarMoeda(valor) {
+  return Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+function formatarData(data) {
+  const partes = data.split("-");
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+function formatarMes(mes) {
+  const partes = mes.split("-");
+  return `${partes[1]}/${partes[0]}`;
+}
+
+gerarHorarios();
+carregarTudo();
+</script>
+
+</body>
+</html>
